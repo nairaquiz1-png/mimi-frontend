@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Navbar from "@/components/navbar";
 
 export default function GetHelpPage() {
@@ -53,9 +55,12 @@ export default function GetHelpPage() {
               Find reliable help for your task in just a few steps.
             </p>
 
-            <button className="px-8 py-4 rounded-lg bg-black text-white text-lg hover:opacity-90">
-              Find a Service
-            </button>
+            <Link href="/providers">
+  <button className="px-8 py-4 rounded-lg bg-black text-white text-lg hover:opacity-90">
+    Find a Service
+  </button>
+</Link>
+
           </section>
         </div>
       </main>

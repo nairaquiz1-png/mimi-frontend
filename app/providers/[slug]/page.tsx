@@ -111,5 +111,5 @@ export default function ProviderProfilePage() {
         </div>
       </main>
     </>
-  );
+  );    
 }
