@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import Link from "next/link";
+import { providers } from "@/app/data/providers";
 
 export default function ProvidersPage() {
   return (
@@ -12,19 +13,26 @@ export default function ProvidersPage() {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Link href="/providers/mechanic-john">
-            <div className="border rounded-xl p-6 hover:shadow cursor-pointer">
-              <h3 className="text-xl font-semibold">John the Mechanic</h3>
-              <p className="text-gray-600">Auto repairs • 3km away</p>
-            </div>
-          </Link>
+          {providers.map((provider) => (
+            <Link
+              key={provider.slug}
+              href={`/providers/${provider.slug}`}
+            >
+              <div className="border rounded-xl p-6 hover:shadow cursor-pointer">
+                <h3 className="text-xl font-semibold">
+                  {provider.name}
+                </h3>
 
-          <Link href="/providers/plumber-mary">
-            <div className="border rounded-xl p-6 hover:shadow cursor-pointer">
-              <h3 className="text-xl font-semibold">Mary the Plumber</h3>
-              <p className="text-gray-600">Plumbing • 1.5km away</p>
-            </div>
-          </Link>
+                <p className="text-gray-600">
+                  {provider.service}
+                </p>
+
+                <p className="text-sm text-gray-500 mt-2">
+                  ⭐ {provider.rating} • {provider.distance}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </main>
     </>

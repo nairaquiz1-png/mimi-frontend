@@ -1,20 +1,26 @@
+"use client";
+
 import Navbar from "@/components/navbar";
+import { useRouter } from "next/navigation";
 
 const providers = [
   {
     name: "John Mechanic",
+    slug: "john-mechanic",
     service: "Auto Repair",
     distance: "1.2 km away",
     rating: "4.8",
   },
   {
     name: "Sarah Plumber",
+    slug: "sarah-plumber",
     service: "Plumbing",
     distance: "2.5 km away",
     rating: "4.9",
   },
   {
     name: "David Tutor",
+    slug: "david-tutor",
     service: "Math Tutor",
     distance: "3.1 km away",
     rating: "4.7",
@@ -22,6 +28,8 @@ const providers = [
 ];
 
 export default function DiscoverPage() {
+  const router = useRouter();
+
   return (
     <>
       <Navbar />
@@ -48,7 +56,7 @@ export default function DiscoverPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {providers.map((provider) => (
               <div
-                key={provider.name}
+                key={provider.slug}
                 className="border rounded-xl p-5 hover:shadow transition"
               >
                 <h3 className="text-lg font-semibold">
@@ -62,7 +70,12 @@ export default function DiscoverPage() {
                   <span>⭐ {provider.rating}</span>
                 </div>
 
-                <button className="mt-4 w-full py-2 rounded bg-black text-white hover:opacity-80">
+                <button
+                  onClick={() =>
+                    router.push(`/providers/${provider.slug}`)
+                  }
+                  className="mt-4 w-full py-2 rounded bg-black text-white hover:opacity-80"
+                >
                   View Profile
                 </button>
               </div>

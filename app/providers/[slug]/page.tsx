@@ -91,16 +91,7 @@ export default async function ProviderProfilePage({ params }: Props) {
                 🚀 Promoted Provider
               </h3>
               <p className="text-sm opacity-90">
-                This provider is currently promoted for higher visibility.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-6">
-              <h3 className="text-lg font-semibold mb-2">
-                Availability
-              </h3>
-              <p className="text-gray-600">
-                Available today • 8:00 AM – 6:00 PM
+                This provider is currently promoted.
               </p>
             </div>
           </aside>
