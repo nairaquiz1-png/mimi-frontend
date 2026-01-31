@@ -1,6 +1,11 @@
+"use client";
+
 import Navbar from "@/components/navbar";
+import { useRouter } from "next/navigation";
 
 export default function LandingPage() {
+  const router = useRouter();
+
   return (
     <>
       <Navbar />
@@ -32,16 +37,29 @@ export default function LandingPage() {
         </div>
 
         <div className="flex gap-4 mt-6">
-          <button className="px-6 py-3 rounded bg-black text-white hover:opacity-80">
+          <button
+            onClick={() => router.push("/discover")}
+            className="px-6 py-3 rounded bg-black text-white hover:opacity-80"
+          >
             Search
           </button>
-          <button className="px-6 py-3 rounded border border-gray-300 hover:bg-gray-50">
+
+          <button
+            onClick={() => router.push("/earn-money")}
+            className="px-6 py-3 rounded border border-gray-300 hover:bg-gray-50"
+          >
             Become a Provider
           </button>
         </div>
 
         <p className="text-sm text-gray-500 mt-4">
-          Not listed? <button className="text-black underline hover:opacity-80">Add your service</button>
+          Not listed?{" "}
+          <button
+            onClick={() => router.push("/services")}
+            className="text-black underline hover:opacity-80"
+          >
+            Add your service
+          </button>
         </p>
       </main>
     </>
