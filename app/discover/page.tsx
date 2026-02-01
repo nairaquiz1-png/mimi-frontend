@@ -1,26 +1,24 @@
-"use client";
-
 import Navbar from "@/components/navbar";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const providers = [
   {
-    name: "John Mechanic",
     slug: "john-mechanic",
+    name: "John Mechanic",
     service: "Auto Repair",
     distance: "1.2 km away",
     rating: "4.8",
   },
   {
-    name: "Sarah Plumber",
-    slug: "sarah-plumber",
+    slug: "moses-plumber",
+    name: "Moses Plumber",
     service: "Plumbing",
     distance: "2.5 km away",
     rating: "4.9",
   },
   {
-    name: "David Tutor",
     slug: "david-tutor",
+    name: "David Tutor",
     service: "Math Tutor",
     distance: "3.1 km away",
     rating: "4.7",
@@ -28,8 +26,6 @@ const providers = [
 ];
 
 export default function DiscoverPage() {
-  const router = useRouter();
-
   return (
     <>
       <Navbar />
@@ -41,7 +37,6 @@ export default function DiscoverPage() {
             Live Map View (Location Enabled)
           </span>
 
-          {/* Floating badge */}
           <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-black text-white px-5 py-2 rounded-full text-sm">
             Searching for providers near you…
           </div>
@@ -70,14 +65,14 @@ export default function DiscoverPage() {
                   <span>⭐ {provider.rating}</span>
                 </div>
 
-                <button
-                  onClick={() =>
-                    router.push(`/providers/${provider.slug}`)
-                  }
-                  className="mt-4 w-full py-2 rounded bg-black text-white hover:opacity-80"
+                <Link
+                  href={`/providers/${provider.slug}`}
+                  className="block mt-4"
                 >
-                  View Profile
-                </button>
+                  <button className="w-full py-2 rounded bg-black text-white hover:opacity-80">
+                    View Profile
+                  </button>
+                </Link>
               </div>
             ))}
           </div>

@@ -12,9 +12,7 @@ type Props = {
 export default async function ProviderProfilePage({ params }: Props) {
   const { slug } = await params;
 
-  const provider = providers.find(
-    (p) => p.slug === slug
-  );
+  const provider = providers.find((p) => p.slug === slug);
 
   if (!provider) {
     notFound();
@@ -31,13 +29,9 @@ export default async function ProviderProfilePage({ params }: Props) {
             <div className="w-32 h-32 bg-gray-200 rounded-full" />
 
             <div className="flex-1">
-              <h1 className="text-3xl font-bold">
-                {provider.name}
-              </h1>
+              <h1 className="text-3xl font-bold">{provider.name}</h1>
 
-              <p className="text-gray-600 mt-1">
-                {provider.service}
-              </p>
+              <p className="text-gray-600 mt-1">{provider.service}</p>
 
               <div className="flex gap-4 mt-4 text-sm text-gray-500">
                 <span>⭐ {provider.rating} Rating</span>
@@ -48,14 +42,19 @@ export default async function ProviderProfilePage({ params }: Props) {
               </div>
 
               <div className="mt-6 flex gap-4">
+                {/* REQUEST SERVICE */}
                 <Link href={`/providers/${provider.slug}/request`}>
                   <button className="px-6 py-3 rounded bg-black text-white hover:opacity-80">
                     Request Service
                   </button>
                 </Link>
 
-                <button className="px-6 py-3 rounded border border-gray-300 hover:bg-gray-100">
-                  Message
+                {/* MESSAGE — WEEK 1 SAFE */}
+                <button
+                  disabled
+                  className="px-6 py-3 rounded border border-gray-300 text-gray-400 cursor-not-allowed"
+                >
+                  Message (Coming soon)
                 </button>
               </div>
             </div>
