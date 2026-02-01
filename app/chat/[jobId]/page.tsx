@@ -9,8 +9,11 @@ type Message = {
   time: string;
 };
 
+// 🔒 Week 1 lock — enable in Week 2/3
+const CHAT_ENABLED = false;
+
 export default function JobChatPage() {
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages] = useState<Message[]>([
     {
       id: 1,
       sender: "provider",
@@ -28,21 +31,7 @@ export default function JobChatPage() {
   const [input, setInput] = useState("");
 
   const sendMessage = () => {
-    if (!input.trim()) return;
-
-    setMessages([
-      ...messages,
-      {
-        id: messages.length + 1,
-        sender: "user",
-        text: input,
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      },
-    ]);
-    setInput("");
+    if (!CHAT_ENABLED) return;
   };
 
   return (
@@ -55,9 +44,13 @@ export default function JobChatPage() {
             <p className="text-sm text-gray-500">
               Mechanic • En route to your location
             </p>
+            <p className="text-xs text-gray-400 mt-1">
+              Chat becomes active once the provider accepts your job.
+            </p>
           </div>
-          <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-            Active Job
+
+          <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">
+            Locked
           </span>
         </div>
 
@@ -90,15 +83,18 @@ export default function JobChatPage() {
         {/* Input */}
         <div className="border-t p-4 flex gap-2">
           <input
+            disabled
             type="text"
-            placeholder="Type your message…"
+            placeholder="Chat will be enabled after job acceptance"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="flex-1 border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+            className="flex-1 border rounded-md px-3 py-2 text-sm bg-gray-100 cursor-not-allowed"
           />
+
           <button
+            disabled
             onClick={sendMessage}
-            className="bg-black text-white px-5 py-2 rounded-md text-sm hover:opacity-90"
+            className="bg-gray-300 text-gray-500 px-5 py-2 rounded-md text-sm cursor-not-allowed"
           >
             Send
           </button>
