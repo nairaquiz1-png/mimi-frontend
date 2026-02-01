@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import Link from "next/link";
 
 const steps = [
   { label: "Requested", done: true },
@@ -9,6 +10,8 @@ const steps = [
 ];
 
 export default function JobStatusPage() {
+  const jobId = "123"; // mock job id for Week 1
+
   return (
     <>
       <Navbar />
@@ -26,7 +29,7 @@ export default function JobStatusPage() {
               <div>
                 <h2 className="font-semibold">Plumbing Repair</h2>
                 <p className="text-sm text-gray-500">
-                  Job ID: #123 • Lagos
+                  Job ID: #{jobId} • Lagos
                 </p>
               </div>
 
@@ -49,15 +52,13 @@ export default function JobStatusPage() {
                     }`}
                   />
 
-                  <div className="flex-1">
-                    <p
-                      className={`font-medium ${
-                        step.done ? "text-black" : "text-gray-400"
-                      }`}
-                    >
-                      {step.label}
-                    </p>
-                  </div>
+                  <p
+                    className={`font-medium ${
+                      step.done ? "text-black" : "text-gray-400"
+                    }`}
+                  >
+                    {step.label}
+                  </p>
                 </div>
               ))}
             </div>
@@ -65,16 +66,23 @@ export default function JobStatusPage() {
 
           {/* ACTIONS */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button className="p-4 bg-white rounded-xl border hover:bg-gray-50">
-              💬 Open Chat
-            </button>
+            <Link href={`/chat/${jobId}`}>
+              <button className="w-full p-4 bg-white rounded-xl border hover:bg-gray-50">
+                💬 Open Chat
+              </button>
+            </Link>
 
-            <button className="p-4 bg-white rounded-xl border hover:bg-gray-50">
-              📍 View Live Location
-            </button>
+            <Link href={`/tracking/${jobId}`}>
+              <button className="w-full p-4 bg-white rounded-xl border hover:bg-gray-50">
+                📍 View Live Location
+              </button>
+            </Link>
 
-            <button className="p-4 bg-red-50 text-red-600 rounded-xl hover:bg-red-100">
-              ⚠ Raise Dispute
+            <button
+              disabled
+              className="p-4 bg-red-50 text-red-400 rounded-xl cursor-not-allowed"
+            >
+              ⚠ Raise Dispute (Coming Soon)
             </button>
           </div>
         </div>
