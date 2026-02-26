@@ -1,18 +1,24 @@
 import Navbar from "@/components/navbar";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { providers } from "@/app/data/providers";
+
+// Fetch a single provider by slug from Django
+async function fetchProvider(slug: string) {
+  const res = await fetch(`http://127.0.0.1:8000/providers/${slug}/`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) return null;
+  return res.json();
+}
 
 type Props = {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 };
 
 export default async function ProviderProfilePage({ params }: Props) {
   const { slug } = await params;
-
-  const provider = providers.find((p) => p.slug === slug);
+  const provider = await fetchProvider(slug);
 
   if (!provider) {
     notFound();
@@ -24,32 +30,35 @@ export default async function ProviderProfilePage({ params }: Props) {
 
       <main className="min-h-screen bg-gray-50">
         {/* HEADER */}
-        <div className="bg-white border-b">
-          <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row gap-8">
-            <div className="w-32 h-32 bg-gray-200 rounded-full" />
+        <div className="bg-white border-b pt-25">
+          <div className="max-w-6xl mx-auto px-6 pb-25 flex flex-col md:flex-row gap-8 items-center md:items-start">
+            
+            {/* PROFILE IMAGE */}
+            <div className="w-32 h-32 bg-gray-200 rounded-full flex-shrink-0 shadow-md" />
 
+            {/* PROFILE INFO */}
             <div className="flex-1">
-              <h1 className="text-3xl font-bold">{provider.name}</h1>
+              <h1 className="text-3xl font-bold">
+                {provider.user.username}
+              </h1>
 
-              <p className="text-gray-600 mt-1">{provider.service}</p>
+              <p className="text-gray-600 mt-2">
+                {provider.bio}
+              </p>
 
-              <div className="flex gap-4 mt-4 text-sm text-gray-500">
+              <div className="flex gap-4 mt-4 text-sm text-gray-500 flex-wrap">
                 <span>⭐ {provider.rating} Rating</span>
                 <span>•</span>
-                <span>{provider.jobs} Jobs Completed</span>
-                <span>•</span>
-                <span>{provider.distance} away</span>
+                <span>{provider.location}</span>
               </div>
 
               <div className="mt-6 flex gap-4">
-                {/* REQUEST SERVICE */}
                 <Link href={`/providers/${provider.slug}/request`}>
-                  <button className="px-6 py-3 rounded bg-black text-white hover:opacity-80">
+                  <button className="px-6 py-3 rounded bg-black text-white hover:opacity-80 transition">
                     Request Service
                   </button>
                 </Link>
 
-                {/* MESSAGE — WEEK 1 SAFE */}
                 <button
                   disabled
                   className="px-6 py-3 rounded border border-gray-300 text-gray-400 cursor-not-allowed"
@@ -62,38 +71,20 @@ export default async function ProviderProfilePage({ params }: Props) {
         </div>
 
         {/* CONTENT */}
-        <div className="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
-          <div className="md:col-span-2 space-y-8">
-            <section className="bg-white rounded-xl p-6">
-              <h2 className="text-xl font-semibold mb-3">About</h2>
-              <p className="text-gray-600 leading-relaxed">
-                {provider.about}
-              </p>
-            </section>
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <section className="bg-white rounded-xl p-6 shadow-sm">
+            <h2 className="text-xl font-semibold mb-4">
+              Services Offered
+            </h2>
 
-            <section className="bg-white rounded-xl p-6">
-              <h2 className="text-xl font-semibold mb-4">
-                Services Offered
-              </h2>
-
-              <ul className="grid grid-cols-2 gap-4 text-gray-600">
-                {provider.services.map((service) => (
-                  <li key={service}>• {service}</li>
-                ))}
-              </ul>
-            </section>
-          </div>
-
-          <aside className="space-y-6">
-            <div className="bg-black text-white rounded-xl p-6">
-              <h3 className="text-lg font-semibold mb-2">
-                🚀 Promoted Provider
-              </h3>
-              <p className="text-sm opacity-90">
-                This provider is currently promoted.
-              </p>
-            </div>
-          </aside>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600">
+              {provider.services.map((service: string) => (
+                <li key={service} className="flex items-center gap-2">
+                  <span>•</span> {service}
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
       </main>
     </>

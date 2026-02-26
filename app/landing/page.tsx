@@ -10,7 +10,7 @@ export default function LandingPage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen w-full flex flex-col items-center justify-center p-6 bg-white">
+      <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-white">
         <div className="max-w-3xl text-center">
           <h1 className="text-5xl font-bold tracking-tight mb-4">
             Get Help + Earn Money
@@ -22,21 +22,21 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg mb-6">
           <input
             type="text"
             placeholder="Cars, Plumbing, Medical, Tutoring, Cleaning, etc..."
-            className="border rounded-lg px-4 py-3 flex-1 outline-none ring-0"
+            className="border rounded-lg px-4 py-3 flex-1 outline-none"
           />
 
           <input
             type="text"
             placeholder="Enter your location"
-            className="border rounded-lg px-4 py-3 flex-1 outline-none ring-0"
+            className="border rounded-lg px-4 py-3 flex-1 outline-none"
           />
         </div>
 
-        <div className="flex gap-4 mt-6">
+        <div className="flex gap-4 mb-6">
           <button
             onClick={() => router.push("/discover")}
             className="px-6 py-3 rounded bg-black text-white hover:opacity-80"
@@ -52,7 +52,7 @@ export default function LandingPage() {
           </button>
         </div>
 
-        <p className="text-sm text-gray-500 mt-4">
+        <p className="text-sm text-gray-500">
           Not listed?{" "}
           <button
             onClick={() => router.push("/services")}

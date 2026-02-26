@@ -1,8 +1,18 @@
 import Navbar from "@/components/navbar";
 import Link from "next/link";
-import { providers } from "@/app/data/providers";
 
-export default function ProvidersPage() {
+// Fetch all providers from Django API
+async function fetchProviders() {
+  const res = await fetch("http://127.0.0.1:8000/providers/", {
+    cache: "no-store", // ensures fresh data each request
+  });
+  if (!res.ok) throw new Error("Failed to fetch providers");
+  return res.json();
+}
+
+export default async function ProvidersPage() {
+  const providers = await fetchProviders();
+
   return (
     <>
       <Navbar />
@@ -13,22 +23,20 @@ export default function ProvidersPage() {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {providers.map((provider) => (
+          {providers.map((provider: any) => (
             <Link
               key={provider.slug}
-              href={`/providers/${provider.slug}`}
+              href={`/providers/${provider.slug}`} // links to the provider detail page
             >
               <div className="border rounded-xl p-6 hover:shadow cursor-pointer">
-                <h3 className="text-xl font-semibold">
-                  {provider.name}
-                </h3>
+                <h3 className="text-xl font-semibold">{provider.user.username}</h3>
 
-                <p className="text-gray-600">
-                  {provider.service}
+                <p className="text-gray-600 mt-2">
+                  {provider.bio || provider.services.join(", ")}
                 </p>
 
-                <p className="text-sm text-gray-500 mt-2">
-                  ⭐ {provider.rating} • {provider.distance}
+                <p className="text-sm text-gray-500 mt-4">
+                  ⭐ {provider.rating} • {provider.location}
                 </p>
               </div>
             </Link>
