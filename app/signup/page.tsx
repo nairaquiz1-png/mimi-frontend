@@ -19,7 +19,7 @@ export default function SignupPage() {
     setError("");
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/auth/register/", {
+      const res = await axios.post("http://62.171.148.243:8000/api/auth/register/", {
         username,
         email,
         password,
