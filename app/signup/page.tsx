@@ -19,21 +19,35 @@ export default function SignupPage() {
     setError("");
 
     try {
-      const res = await axios.post("http://62.171.148.243:8000/api/auth/register/", {
-        username,
-        email,
-        password,
-        role,
-        phone,
-      });
+      const res = await axios.post(
+        "http://62.171.148.243:8000/api/auth/register/",
+        {
+          username,
+          email,
+          password,
+          role,
+          phone,
+        }
+      );
 
-      if (res.status === 201) {
-        // Redirect to login after successful signup
-        router.push("/login");
+      if (res.status === 201 || res.status === 200) {
+        router.push("/login"); // redirect to login page
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.detail || "Signup failed");
+
+      // Display validation errors from backend
+      if (err.response?.data) {
+        const data = err.response.data;
+        if (data.role) setError(`Role: ${data.role.join(", ")}`);
+        else if (data.username) setError(`Username: ${data.username.join(", ")}`);
+        else if (data.email) setError(`Email: ${data.email.join(", ")}`);
+        else if (data.password) setError(`Password: ${data.password.join(", ")}`);
+        else if (data.detail) setError(data.detail);
+        else setError("Signup failed. Please check your input.");
+      } else {
+        setError("Network or server error.");
+      }
     }
   };
 
