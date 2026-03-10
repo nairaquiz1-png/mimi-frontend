@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Navbar from "@/components/navbar";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function FundWalletPage() {
   const [amount, setAmount] = useState("");
@@ -15,9 +16,7 @@ export default function FundWalletPage() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        amount: amount,
-      }),
+      body: JSON.stringify({ amount }),
     });
 
     const data = await res.json();
@@ -25,26 +24,20 @@ export default function FundWalletPage() {
     if (data.payment_link) {
       window.location.href = data.payment_link;
     } else {
-      alert("Payment initialization failed");
+      alert(data.detail || "Payment initialization failed");
     }
   };
 
   return (
-    <>
+    <AuthGuard>
       <Navbar />
 
       <main className="min-h-screen bg-gray-50 pt-24 pb-12">
         <div className="max-w-xl mx-auto px-6">
-
-          <h1 className="text-3xl font-bold mb-8">
-            💳 Fund Wallet
-          </h1>
+          <h1 className="text-3xl font-bold mb-8">💳 Fund Wallet</h1>
 
           <div className="bg-white rounded-xl p-6 shadow">
-
-        <label className="block mb-2 font-medium">
-            Amount (₦)
-        </label>
+            <label className="block mb-2 font-medium">Amount (₦)</label>
 
             <input
               type="number"
@@ -60,11 +53,9 @@ export default function FundWalletPage() {
             >
               Proceed to Payment
             </button>
-
           </div>
-
         </div>
       </main>
-    </>
+    </AuthGuard>
   );
 }
